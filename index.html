@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K Keshav Auto Bajaj | Enterprise Dealership</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================
+           ULTRA PREMIUM LIGHT THEME VARIABLES
+           ========================================= */
+        :root {
+            /* Backgrounds */
+            --bg-light-sky: #e1f2fc; 
+            --bg-sky-gradient: linear-gradient(135deg, #e1f2fc 0%, #cbe8fa 100%);
+            
+            /* Boxes */
+            --box-sweet-white: rgba(255, 255, 255, 0.95); 
+            --box-pure-white: #ffffff;
+            
+            /* Accents */
+            --sweet-orange: #ff9f43; 
+            --sweet-orange-dark: #f0932b;
+            --sweet-orange-light: rgba(255, 159, 67, 0.15);
+            
+            /* Typography */
+            --text-main: #1e293b; 
+            --text-muted: #64748b; 
+            
+            /* Shadows & Borders */
+            --glass-border: rgba(255, 255, 255, 1);
+            --glass-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+            --orange-shadow: 0 8px 20px rgba(255, 159, 67, 0.3);
+            
+            --transition-fast: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-slow: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-light-sky); }
+        ::-webkit-scrollbar-thumb { background: var(--sweet-orange); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--sweet-orange-dark); }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-sky-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; color: var(--text-main); }
+
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
+            background: linear-gradient(90deg, #ffb142, var(--sweet-orange));
+            z-index: 9999; box-shadow: 0 0 10px var(--sweet-orange);
+        }
+
+        .glass-panel {
+            background: var(--box-sweet-white);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .highlight-text { color: var(--sweet-orange); font-weight: 700; }
+        .gradient-text { background: linear-gradient(to right, #1e293b, var(--sweet-orange-dark)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition-slow); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { opacity: 0; transform: translateX(-50px); transition: var(--transition-slow); }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+        .reveal-right { opacity: 0; transform: translateX(50px); transition: var(--transition-slow); }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        /* =========================================
+           NAVIGATION
+           ========================================= */
+        header {
+            position: fixed; width: 100%; top: 0; z-index: 1000; padding: 20px 5%;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center;
+            transition: var(--transition-fast); box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .logo { font-size: 28px; font-weight: 800; font-family: 'Space Grotesk'; display: flex; align-items: center; gap: 12px; cursor: pointer; letter-spacing: 1px; color: var(--text-main); }
+        .logo-icon { background: var(--sweet-orange); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; box-shadow: var(--orange-shadow); }
+
+        nav ul { list-style: none; display: flex; gap: 40px; }
+        nav ul li a { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 600; position: relative; padding: 8px 0; transition: var(--transition-fast); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        nav ul li a:hover, nav ul li a.active { color: var(--text-main); }
+        nav ul li a::after { content: ''; position: absolute; width: 0; height: 3px; bottom: 0; left: 50%; background: var(--sweet-orange); transition: var(--transition-fast); border-radius: 5px; transform: translateX(-50%); }
+        nav ul li a:hover::after, nav ul li a.active::after { width: 100%; }
+
+        .btn { padding: 14px 35px; border-radius: 50px; font-weight: 700; font-family: 'Outfit'; font-size: 1rem; cursor: pointer; transition: var(--transition-fast); border: none;  text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden; }
+        .btn-glow { background: var(--sweet-orange); color: white;  box-shadow: var(--orange-shadow); z-index: 1; }
+        .btn-glow:hover { background: var(--sweet-orange-dark); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 159, 67, 0.4); }
+        .btn-outline { background: var(--box-pure-white); border: 2px solid var(--sweet-orange); color: var(--sweet-orange); }
+        .btn-outline:hover { background: var(--sweet-orange); color: white; box-shadow: var(--orange-shadow); }
+
+        /* =========================================
+           SPA LAYOUT & MODAL CSS (ADDED)
+           ========================================= */
+        .page-section { display: none; min-height: 100vh; animation: fadeInPage 0.8s ease forwards; }
+        .page-section.active-page { display: block; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-padding { padding: 120px 5% 60px; max-width: 1600px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-header h2 { font-size: 4rem; color: var(--text-main); margin-bottom: 20px; line-height: 1.2; }
+        .section-header p { font-size: 1.2rem; color: var(--text-muted); max-width: 800px; margin: 0 auto; }
+        
+        .tagline { display: inline-block; padding: 8px 20px; background: var(--sweet-orange); color: white; border-radius: 30px; font-size: 0.9rem; font-weight: 700; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; box-shadow: var(--orange-shadow); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 40px; }
+
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: center; z-index: 9999; opacity: 0; transition: opacity 0.3s ease; }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { background: white; padding: 40px; border-radius: 24px; width: 90%; max-width: 450px; transform: translateY(20px); transition: transform 0.3s ease; border: 2px solid var(--sweet-orange); box-shadow: var(--orange-shadow); position: relative; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+
+        /* =========================================
+           1. HOME PAGE
+           ========================================= */
+        .hero { min-height: 100vh; display: flex; align-items: center; position: relative; padding-top: 80px; }
+        .hero-content { max-width: 800px; padding: 0 5%; position: relative; z-index: 1; }
+        .hero-content h1 { font-size: 6.5rem; line-height: 1.1; margin-bottom: 30px; font-weight: 900; }
+        .hero-content p { font-size: 1.4rem; color: var(--text-muted); margin-bottom: 50px; max-width: 600px; font-weight: 500; }
+        
+        .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); text-align: center; color: var(--text-muted); font-size: 0.9rem; letter-spacing: 2px; animation: bounce 2s infinite; font-weight: 600; }
+        .scroll-indicator i { display: block; margin-top: 10px; font-size: 1.5rem; color: var(--sweet-orange); }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); } 40% { transform: translateY(-15px) translateX(-50%); } 60% { transform: translateY(-7px) translateX(-50%); } }
+
+        .feature-box { padding: 40px; text-align: left; transition: var(--transition-fast); }
+        .feature-box:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: var(--sweet-orange-light); }
+        .feature-icon { width: 70px; height: 70px; background: var(--sweet-orange); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; margin-bottom: 30px; box-shadow: var(--orange-shadow); }
+        .feature-box h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        
+        .video-banner { height: 600px; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; margin: 100px 0; background: url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=1920&q=80') center/cover fixed; border-radius: 30px; overflow: hidden; margin-left: 5%; margin-right: 5%; box-shadow: var(--glass-shadow); }
+        .video-banner::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(3px); }
+        .video-content { position: relative; z-index: 2; color: var(--text-main); }
+        .play-btn { width: 100px; height: 100px; border-radius: 50%; background: var(--sweet-orange); border: 5px solid white; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white; margin: 0 auto 30px; cursor: transition: var(--transition-fast); box-shadow: var(--orange-shadow); }
+        .play-btn:hover { transform: scale(1.1); background: var(--sweet-orange-dark); }
+
+        /* =========================================
+           2. BIKES (SHOWROOM)
+           ========================================= */
+        .bike-category-nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; flex-wrap: wrap; }
+        .cat-btn { background: var(--box-pure-white); border: 1px solid rgba(0,0,0,0.1); color: var(--text-muted); padding: 12px 30px; border-radius: 50px; font-family: 'Space Grotesk'; font-size: 1.1rem; cursor: pointer; transition: var(--transition-fast); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .cat-btn.active, .cat-btn:hover { background: var(--sweet-orange); border-color: var(--sweet-orange); color: white; box-shadow: var(--orange-shadow); }
+
+        .pro-bike-card { padding: 0; display: flex; flex-direction: column; transition: var(--transition-fast); border: 1px solid rgba(0,0,0,0.05); }
+        .pro-bike-card:hover { transform: translateY(-15px); border-color: var(--sweet-orange-light); box-shadow: 0 25px 50px rgba(0,0,0,0.1); }
+        .bike-img-container { height: 300px; padding: 30px; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, var(--bg-light-sky) 0%, transparent 70%); border-bottom: 1px solid rgba(0,0,0,0.05); position: relative; }
+        .bike-img-container img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); filter: drop-shadow(0 20px 20px rgba(0,0,0,0.15)); }
+        .pro-bike-card:hover .bike-img-container img { transform: scale(1.15) rotate(2deg); }
+        
+        .bike-details { padding: 40px; flex-grow: 1; }
+        .bike-name { font-size: 2.5rem; margin-bottom: 10px; }
+        .bike-price { font-size: 1.5rem; color: var(--sweet-orange); font-family: 'Space Grotesk'; font-weight: 700; margin-bottom: 25px; display: block; }
+        
+        .tech-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .spec-item { background: var(--bg-light-sky); padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.03); }
+        .spec-label { display: block; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; font-weight: 600; }
+        .spec-value { display: block; font-size: 1.1rem; color: var(--text-main); font-weight: 700; }
+
+        .compare-section { background: var(--box-sweet-white); border-radius: 30px; padding: 80px 5%; margin: 100px 5%; text-align: center; box-shadow: var(--glass-shadow); border: 1px solid var(--glass-border); }
+
+        /* =========================================
+           3. FINANCING (INSURANCE)
+           ========================================= */
+        .calculator-container { padding: 50px; }
+        .calc-row { margin-bottom: 35px; }
+        .calc-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.1rem; font-weight: 600; color: var(--text-muted); }
+        .calc-val { color: var(--sweet-orange); font-weight: 800; font-family: 'Space Grotesk'; font-size: 1.3rem; }
+        
+        input[type="range"] { -webkit-appearance: none; width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; background: white; border: 3px solid var(--sweet-orange); border-radius: 50%; cursor: pointer; box-shadow: var(--orange-shadow); transition: var(--transition-fast); }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); background: var(--sweet-orange); border-color: white; }
+        
+        .result-box { background: var(--sweet-orange-light); border: 2px dashed var(--sweet-orange); padding: 40px; border-radius: 20px; text-align: center; margin-top: 40px; }
+        .result-amount { font-size: 4.5rem; font-family: 'Space Grotesk'; font-weight: 800; color: var(--sweet-orange-dark); line-height: 1; margin: 15px 0; }
+
+        .docs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
+        .doc-item { background: var(--bg-light-sky); border: 1px solid rgba(0,0,0,0.05); padding: 30px 20px; border-radius: 16px; text-align: center; transition: var(--transition-fast); }
+        .doc-item:hover { background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform: translateY(-5px); border-color: var(--sweet-orange-light); }
+        .doc-item i { background: var(--sweet-orange); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 15px; box-shadow: var(--orange-shadow); }
+
+        /* =========================================
+           4. SERVICES
+           ========================================= */
+        .service-tier-card { padding: 50px 40px; transition: var(--transition-fast); text-align: center; border: 1px solid rgba(0,0,0,0.05); }
+        .service-tier-card:hover { transform: translateY(-10px); border-color: var(--sweet-orange); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .tier-price { font-size: 3.5rem; color: var(--text-main); font-family: 'Space Grotesk'; font-weight: 800; margin: 20px 0; }
+        .tier-price span { font-size: 1rem; color: var(--text-muted); font-weight: 500; }
+        .tier-list { list-style: none; margin: 30px 0; text-align: left; }
+        .tier-list li { padding: 15px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; color: var(--text-muted); font-weight: 500; }
+        .tier-list li i { background: var(--sweet-orange); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+
+        .booking-form { padding: 50px; background: var(--box-pure-white); }
+        .form-group { margin-bottom: 25px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 10px; color: var(--text-main); font-weight: 600; }
+        .form-control { width: 100%; background: var(--bg-light-sky); border: 1px solid rgba(0,0,0,0.05); color: var(--text-main); padding: 15px 20px; border-radius: 10px; font-family: 'Outfit'; font-size: 1rem; outline: none; transition: var(--transition-fast); font-weight: 500; }
+        .form-control:focus { border-color: var(--sweet-orange); background: white; box-shadow: 0 0 0 4px var(--sweet-orange-light); }
+
+        /* =========================================
+           5. ABOUT US
+           ========================================= */
+        .timeline-container { position: relative; max-width: 1000px; margin: 80px auto; }
+        .timeline-container::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: var(--bg-light-sky); border-radius: 2px; }
+        .timeline-block { display: flex; justify-content: space-between; align-items: center; margin-bottom: 80px; }
+        .timeline-block:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-content { width: 45%; padding: 40px; border: 1px solid rgba(0,0,0,0.05); }
+        .timeline-dot { width: 28px; height: 28px; background: var(--sweet-orange); border: 5px solid white; border-radius: 50%; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: var(--orange-shadow); }
+        .timeline-year { font-size: 3.5rem; font-family: 'Space Grotesk'; font-weight: 800; color: var(--sweet-orange); opacity: 0.3; line-height: 1; margin-bottom: 10px; }
+
+        /* =========================================
+           FOOTER
+           ========================================= */
+        footer { padding: 100px 5% 40px; background: white; position: relative; border-top: 1px solid rgba(0,0,0,0.05); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 80px; }
+        .footer-col h4 { font-size: 1.5rem; color: var(--text-main); margin-bottom: 30px; letter-spacing: 1px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 15px; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition-fast); display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 500; }
+        .footer-links a:hover { color: var(--sweet-orange); transform: translateX(8px); }
+        .social-links { display: flex; gap: 15px; margin-top: 30px; }
+        .social-icon { width: 45px; height: 45px; border-radius: 12px; background: var(--bg-light-sky); display: flex; align-items: center; justify-content: center; color: var(--sweet-orange-dark); font-size: 1.2rem; transition: var(--transition-fast); text-decoration: none; }
+        .social-icon:hover { background: var(--sweet-orange); color: white; transform: translateY(-5px); box-shadow: var(--orange-shadow); }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(0,0,0,0.05); color: var(--text-muted); font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div id="scroll-progress"></div>
+
+    <header id="main-header">
+        <div class="logo" onclick="navigateTo('home')">
+            <div class="logo-icon">K</div>
+            Keshav Auto <span class="highlight-text">Bajaj</span>
+        </div>
+        <nav>
+            <ul id="nav-menu">
+                <li><a onclick="navigateTo('home')" class="active">Home</a></li>
+                <li><a onclick="navigateTo('bikes')">Bikes</a></li>
+                <li><a onclick="navigateTo('insurance')">Insurance</a></li>
+                <li><a onclick="navigateTo('services')">Services</a></li>
+                <li><a onclick="navigateTo('about')">About Us</a></li>
+            </ul>
+        </nav>
+        <button class="btn btn-glow" onclick="openTestRideModal()">Test Ride</button>
+    </header>
+
+    <main id="home" class="page-section active-page">
+        <div class="hero">
+            <div class="hero-content reveal-left">
+                <span class="tagline"><i class="fas fa-bolt"></i> Future of Mobility</span>
+                <h1 class="gradient-text">Discover the Thrill<br>of Bajaj Bikes!</h1>
+                <p>Latest Models & Exciting Offers Await You! Discover the perfect synergy of cutting-edge engineering, extreme performance, and state-of-the-art digital financing.</p>
+                <div style="display: flex; gap: 20px;">
+                    <button class="btn btn-glow" onclick="navigateTo('bikes')">Explore Bikes</button>
+                    <button class="btn btn-outline" onclick="navigateTo('about')">Our Story</button>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                SCROLL TO EXPLORE
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+
+        <div class="section-padding">
+            <div class="section-header reveal">
+                <span class="tagline">Enterprise Advantage</span>
+                <h2>Why Choose Keshav Auto?</h2>
+                <p>We redefine the two-wheeler retail experience by integrating advanced technology with uncompromising customer service.</p>
+            </div>
+            <div class="grid-3">
+                <div class="glass-panel feature-box reveal">
+                    <div class="feature-icon"><i class="fas fa-vr-cardboard"></i></div>
+                    <h3>Digital Showroom</h3>
+                    <p style="color: var(--text-muted);">Experience our bikes through immersive 360° virtual tours and AR integrations right from your device.</p>
+                </div>
+                <div class="glass-panel feature-box reveal" style="transition-delay: 0.2s;">
+                    <div class="feature-icon"><i class="fas fa-stopwatch"></i></div>
+                    <h3>10-Min Approvals</h3>
+                    <p style="color: var(--text-muted);">Our automated AI-driven finance engine partners with top banks to deliver instant loan approvals.</p>
+                </div>
+                <div class="glass-panel feature-box reveal" style="transition-delay: 0.4s;">
+                    <div class="feature-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>Robotic Service Bay</h3>
+                    <p style="color: var(--text-muted);">State-of-the-art pneumatic tools and computerized ECU diagnostics ensure factory-level precision.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-banner reveal">
+            <div class="video-content">
+                <div class="play-btn"><i class="fas fa-play"></i></div>
+                <h2 style="font-size: 3.5rem; margin-bottom: 15px;">Experience The Dominar</h2>
+                <p style="font-size: 1.2rem; color: var(--text-main); font-weight: 500;">Watch the ultimate sports tourer in action.</p>
+            </div>
+        </div>
+    </main>
+
+    <main id="bikes" class="page-section">
+        <div class="section-padding">
+            <div class="section-header reveal">
+                <span class="tagline">The Arsenal</span>
+                <h2 class="gradient-text">Precision Machinery</h2>
+                <p>From the aerodynamic fairings of the RS200 to the rugged torque of the Dominar, explore our curated lineup of engineering marvels.</p>
+            </div>
+
+            <div class="bike-category-nav reveal">
+                <button class="cat-btn active" onclick="filterBikes('all')">All Fleet</button>
+                <button class="cat-btn" onclick="filterBikes('sports')">Naked & Sports</button>
+                <button class="cat-btn" onclick="filterBikes('touring')">Touring</button>
+                <button class="cat-btn" onclick="filterBikes('commuter')">Commuter Tech</button>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-panel pro-bike-card bike-item sports reveal">
+                    <div class="bike-img-container">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3c87?w=800&q=80" alt="NS200">
+                    </div>
+                    <div class="bike-details">
+                        <h3 class="bike-name">Pulsar NS200 <span style="font-size: 0.9rem; color: white; background: var(--sweet-orange); vertical-align: middle; padding: 5px 12px; border-radius: 20px; margin-left: 10px;">BS6 Phase 2</span></h3>
+                        <span class="bike-price">₹ 1,42,000*</span>
+                        
+                        <div class="tech-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Engine</span>
+                                <span class="spec-value">199.5cc Liquid Cooled</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Max Power</span>
+                                <span class="spec-value">24.5 PS @ 9750 RPM</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Torque</span>
+                                <span class="spec-value">18.74 Nm @ 8000 RPM</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Braking</span>
+                                <span class="spec-value">Dual Channel ABS</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-glow" style="width: 100%;" onclick="openTestRideModal()">Configure & Book</button>
+                    </div>
+                </div>
+
+                <div class="glass-panel pro-bike-card bike-item touring reveal" style="transition-delay: 0.2s;">
+                    <div class="bike-img-container">
+                        <img src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=800&q=80" alt="Dominar 400">
+                    </div>
+                    <div class="bike-details">
+                        <h3 class="bike-name">Dominar 400 <span style="font-size: 0.9rem; color: white; background: var(--sweet-orange); vertical-align: middle; padding: 5px 12px; border-radius: 20px; margin-left: 10px;">Touring Ed.</span></h3>
+                        <span class="bike-price">₹ 2,30,000*</span>
+                        
+                        <div class="tech-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Engine</span>
+                                <span class="spec-value">373.3cc DOHC</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Max Power</span>
+                                <span class="spec-value">40 PS @ 8800 RPM</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Suspension</span>
+                                <span class="spec-value">43mm USD Forks</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Transmission</span>
+                                <span class="spec-value">6-Speed Slipper Clutch</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%;" onclick="openTestRideModal()">Configure & Book</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compare-section reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px;">Confused between models?</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 1.2rem;">Use our deep-dive comparison tool to analyze side-by-side telemetry, ergonomics, and pricing.</p>
+                <button class="btn btn-glow"><i class="fas fa-balance-scale"></i> Launch Compare Tool</button>
+            </div>
+        </div>
+    </main>
+
+    <main id="insurance" class="page-section">
+        <div class="section-padding">
+            <div class="section-header reveal">
+                <span class="tagline">Smart Economics</span>
+                <h2 class="gradient-text">Premium Insurance & Finance</h2>
+                <p>We've eliminated the paperwork. Experience our algorithmic loan matching system for instant, transparent approvals.</p>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 100px;">
+                <div class="reveal-left">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 30px;">The 3-Step Express Process</h3>
+                    
+                    <div style="position: relative; padding-left: 40px; border-left: 3px dashed var(--sweet-orange-light);">
+                        <div style="position: relative; margin-bottom: 40px;">
+                            <div style="position: absolute; left: -52px; top: 0; width: 24px; height: 24px; background: var(--sweet-orange); border: 4px solid white; border-radius: 50%; box-shadow: var(--orange-shadow);"></div>
+                            <h4 style="font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main);">1. Biometric KYC</h4>
+                            <p style="color: var(--text-muted); font-weight: 500;">Aadhar-based instant verification. No physical documents required.</p>
+                        </div>
+                        <div style="position: relative; margin-bottom: 40px;">
+                            <div style="position: absolute; left: -52px; top: 0; width: 24px; height: 24px; background: var(--sweet-orange-dark); border: 4px solid white; border-radius: 50%; box-shadow: var(--orange-shadow);"></div>
+                            <h4 style="font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main);">2. AI Offer Generation</h4>
+                            <p style="color: var(--text-muted); font-weight: 500;">Our system fetches your CIBIL score and negotiates the lowest ROI across 12 partner banks.</p>
+                        </div>
+                        <div style="position: relative;">
+                            <div style="position: absolute; left: -52px; top: 0; width: 24px; height: 24px; background: var(--bg-light-sky); border: 4px solid var(--sweet-orange); border-radius: 50%;"></div>
+                            <h4 style="font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main);">3. E-Sign & Ride</h4>
+                            <p style="color: var(--text-muted); font-weight: 500;">Sign the digital mandate via OTP and take delivery of your motorcycle.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel calculator-container reveal-right">
+                    <h3 style="font-size: 2rem; margin-bottom: 40px; text-align: center; color: var(--text-main);">Real-Time EMI Engine</h3>
+                    
+                    <div class="calc-row">
+                        <div class="calc-header">
+                            <span>Principal Amount (₹)</span>
+                            <span class="calc-val" id="amountVal">1,20,000</span>
+                        </div>
+                        <input type="range" id="loanAmount" min="20000" max="300000" step="1000" value="120000" oninput="calculateEMI()">
+                    </div>
+                    
+                    <div class="calc-row">
+                        <div class="calc-header">
+                            <span>Interest Rate (% P.A.)</span>
+                            <span class="calc-val" id="rateVal">7.5%</span>
+                        </div>
+                        <input type="range" id="interestRate" min="6.99" max="14" step="0.1" value="7.5" oninput="calculateEMI()">
+                    </div>
+                    
+                    <div class="calc-row">
+                        <div class="calc-header">
+                            <span>Tenure (Months)</span>
+                            <span class="calc-val" id="tenureVal">36</span>
+                        </div>
+                        <input type="range" id="loanTenure" min="12" max="60" step="6" value="36" oninput="calculateEMI()">
+                    </div>
+                    
+                    <div class="result-box">
+                        <p style="color: var(--sweet-orange-dark); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Monthly Obligation</p>
+                        <div class="result-amount">₹ <span id="emiResult">3,733</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel reveal" style="padding: 50px;">
+                <h3 style="font-size: 2rem; margin-bottom: 30px; text-align: center;">Required Digital Documents</h3>
+                <div class="docs-grid">
+                    <div class="doc-item">
+                        <i class="fas fa-id-card"></i>
+                        <h4>Aadhar Card</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">For e-KYC</p>
+                    </div>
+                    <div class="doc-item">
+                        <i class="fas fa-address-card"></i>
+                        <h4>PAN Card</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">For CIBIL check</p>
+                    </div>
+                    <div class="doc-item">
+                        <i class="fas fa-university"></i>
+                        <h4>Bank Statement</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">Last 3 months</p>
+                    </div>
+                    <div class="doc-item">
+                        <i class="fas fa-image"></i>
+                        <h4>Selfie</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 5px;">Live capture</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="services" class="page-section">
+        <div class="section-padding">
+            <div class="section-header reveal">
+                <span class="tagline">Factory Level Care</span>
+                <h2 class="gradient-text">Precision Services</h2>
+                <p>Equipped with advanced diagnostic telemetry and certified engineers to ensure your machine runs exactly as it did on day one.</p>
+            </div>
+
+            <div class="grid-3" style="margin-bottom: 100px;">
+                <div class="glass-panel service-tier-card reveal">
+                    <h3 style="font-size: 2rem;">Standard Lube</h3>
+                    <div class="tier-price">₹1,299<span>/visit</span></div>
+                    <p style="color: var(--text-muted);">Essential maintenance for city commuters.</p>
+                    <ul class="tier-list">
+                        <li><i class="fas fa-check"></i> Complete Foam Wash</li>
+                        <li><i class="fas fa-check"></i> DTS-i Oil Replacement</li>
+                        <li><i class="fas fa-check"></i> Chain Slack Adjustment</li>
+                        <li><i class="fas fa-check"></i> Brake Pad Inspection</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Schedule Visit</button>
+                </div>
+
+                <div class="glass-panel service-tier-card reveal" style="transform: scale(1.05); border: 2px solid var(--sweet-orange); box-shadow: var(--orange-shadow);">
+                    <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: var(--sweet-orange); color: white; padding: 5px 20px; border-radius: 0 0 10px 10px; font-weight: bold; font-size: 0.8rem; letter-spacing: 1px;">RECOMMENDED</div>
+                    <h3 style="font-size: 2rem;">ECU Diagnostics</h3>
+                    <div class="tier-price" style="color: var(--sweet-orange);">₹2,499<span>/visit</span></div>
+                    <p style="color: var(--text-muted);">Advanced tuning for performance models.</p>
+                    <ul class="tier-list">
+                        <li><i class="fas fa-check"></i> Everything in Standard</li>
+                        <li><i class="fas fa-check"></i> ECU Error Code Wipe</li>
+                        <li><i class="fas fa-check"></i> FI System Cleaning</li>
+                        <li><i class="fas fa-check"></i> Throttle Body Sync</li>
+                    </ul>
+                    <button class="btn btn-glow" style="width: 100%;">Schedule Visit</button>
+                </div>
+
+                <div class="glass-panel service-tier-card reveal">
+                    <h3 style="font-size: 2rem;">Showroom Reset</h3>
+                    <div class="tier-price">₹3,999<span>/visit</span></div>
+                    <p style="color: var(--text-muted);">Complete mechanical and aesthetic restoration.</p>
+                    <ul class="tier-list">
+                        <li><i class="fas fa-check"></i> Everything in Diagnostics</li>
+                        <li><i class="fas fa-check"></i> Engine Internal Flush</li>
+                        <li><i class="fas fa-check"></i> 9H Ceramic/Teflon Coat</li>
+                        <li><i class="fas fa-check"></i> Chassis Anti-Rust Treat</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;">Schedule Visit</button>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="reveal-left">
+                    <h3 style="font-size: 3rem; margin-bottom: 20px;">Book a Service Bay</h3>
+                    <p style="color: var(--text-muted); font-size: 1.2rem; margin-bottom: 30px; font-weight: 500;">Skip the queue. Select your preferred date, time slot, and service type. Our bay manager will confirm your appointment within 15 minutes.</p>
+                    <div style="display: flex; gap: 20px; margin-top: 40px;">
+                        <div style="background: white; border: 1px solid rgba(0,0,0,0.05); padding: 20px; border-radius: 16px; text-align: center; flex: 1; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                            <i class="fas fa-clock" style="font-size: 2rem; color: var(--sweet-orange); margin-bottom: 10px;"></i>
+                            <h4 style="margin-bottom: 5px;">Turnaround</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">90 Mins (Standard)</p>
+                        </div>
+                        <div style="background: white; border: 1px solid rgba(0,0,0,0.05); padding: 20px; border-radius: 16px; text-align: center; flex: 1; box-shadow: 0 5px 15px rgba(0,0,0,0.02);">
+                            <i class="fas fa-shield-alt" style="font-size: 2rem; color: var(--sweet-orange); margin-bottom: 10px;"></i>
+                            <h4 style="margin-bottom: 5px;">Parts Guarantee</h4>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">6 Months OEM Warranty</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel booking-form reveal-right">
+                    <form id="serviceForm" onsubmit="submitServiceBooking(event)">
+                        <div class="form-group">
+                            <label>Vehicle Registration Number</label>
+                            <input type="text" id="srvRegNo" class="form-control" placeholder="e.g. RJ-14-XX-1234" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Select Service Type</label>
+                            <select id="srvType" class="form-control" required>
+                                <option value="" disabled selected>Select Package</option>
+                                <option value="Standard Lube (₹1,299)">Standard Lube (₹1,299)</option>
+                                <option value="ECU Diagnostics (₹2,499)">ECU Diagnostics (₹2,499)</option>
+                                <option value="Showroom Reset (₹3,999)">Showroom Reset (₹3,999)</option>
+                                <option value="Accidental / Insurance Claim">Accidental / Insurance Claim</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="form-group">
+                                <label>Preferred Date</label>
+                                <input type="date" id="srvDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Slot</label>
+                                <select id="srvTime" class="form-control" required>
+                                    <option value="09:30 AM - 11:30 AM">09:30 AM - 11:30 AM</option>
+                                    <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
+                                    <option value="03:00 PM - 05:00 PM">03:00 PM - 05:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-glow" style="width: 100%; margin-top: 20px;">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="about" class="page-section">
+        <div class="section-padding">
+            <div class="section-header reveal">
+                <span class="tagline">The Legacy</span>
+                <h2 class="gradient-text">About Us</h2>
+                <p>Since 2010, K Keshav Auto Bajaj has been at the forefront of the two-wheeler revolution, combining deep mechanical expertise with modern retail technology.</p>
+            </div>
+
+            <div class="timeline-container reveal">
+                <div class="timeline-block">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-panel timeline-content">
+                        <div class="timeline-year">2010</div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 10px; color: var(--text-main);">The Foundation</h3>
+                        <p style="color: var(--text-muted); font-weight: 500;">Established as a specialized tuning and repair workshop. Built a reputation for solving complex engine issues that others couldn't.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-block">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-panel timeline-content">
+                        <div class="timeline-year">2015</div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 10px; color: var(--text-main);">Official Dealership</h3>
+                        <p style="color: var(--text-muted); font-weight: 500;">Recognized for our technical prowess, we were awarded the official Bajaj Auto Main Dealership for the district.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-block">
+                    <div class="timeline-dot"></div>
+                    <div class="glass-panel timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 10px; color: var(--text-main);">Digital Transformation</h3>
+                        <p style="color: var(--text-muted); font-weight: 500;">Launched our 10,000 sq.ft high-tech facility. Integrated AI for inventory management and fully digitized the finance process.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-panel reveal" style="padding: 60px; text-align: center; margin-top: 100px;">
+                <h2 style="font-size: 3rem; margin-bottom: 20px;">Ready to join the revolution?</h2>
+                <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; font-weight: 500;">Visit our flagship store or connect with our sales team virtually.</p>
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    <button class="btn btn-glow"><i class="fas fa-map-marker-alt"></i> Get Directions</button>
+                    <button class="btn btn-outline"><i class="fas fa-phone-alt"></i> Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col reveal">
+                <div class="logo" style="margin-bottom: 25px;">
+                    <div class="logo-icon">K</div> Keshav <span class="highlight-text">Bajaj</span>
+                </div>
+                <p style="font-size: 1.1rem; margin-bottom: 30px; font-weight: 500;">Engineered for Excellence. Delivering premium Bajaj motorcycles and unmatched after-sales service.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col reveal" style="transition-delay: 0.1s;">
+                <h4>Fleet</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Pulsar Series</a></li>
+                    <li><a href="#">Dominar Series</a></li>
+                    <li><a href="#">Avenger Cruiser</a></li>
+                    <li><a href="#">Platina Commuter</a></li>
+                    <li><a href="#">Chetak EV</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col reveal" style="transition-delay: 0.2s;">
+                <h4>Services</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Book a Service</a></li>
+                    <li><a href="#">EMI Calculator</a></li>
+                    <li><a href="#">Insurance Renewal</a></li>
+                    <li><a href="#">Genuine Parts</a></li>
+                    <li><a href="#">Test Ride Booking</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col reveal" style="transition-delay: 0.3s;">
+                <h4>Headquarters</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt" style="color: var(--sweet-orange);"></i> 123, Auto District, Sector 5, Tech City, 302001</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt" style="color: var(--sweet-orange);"></i> +91-98765-43210</a></li>
+                    <li><a href="#"><i class="fas fa-envelope" style="color: var(--sweet-orange);"></i> support@keshavauto.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock" style="color: var(--sweet-orange);"></i> Mon-Sun: 09:30 AM - 08:00 PM</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 K Keshav Auto Bajaj. Designed for Performance. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="testRideModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeTestRideModal()" style="position: absolute; top: 15px; right: 20px; font-size: 24px; background: none; border: none; color: var(--sweet-orange); cursor: pointer;"><i class="fas fa-times"></i></button>
+            <h2 style="margin-bottom: 25px; color: var(--text-main); font-size: 2rem; font-family: 'Space Grotesk';">Book a Test Ride</h2>
+            
+            <form id="testRideForm" onsubmit="submitTestRide(event)">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Full Name</label>
+                    <input type="text" id="trName" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none; font-family: 'Outfit';" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Phone Number</label>
+                    <input type="tel" id="trPhone" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none; font-family: 'Outfit';" placeholder="10-digit number" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Select Model</label>
+                    <select id="trBike" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none; font-family: 'Outfit';" required>
+                        <option value="" disabled selected>Choose a bike</option>
+                        <option value="Pulsar NS200">Pulsar NS200</option>
+                        <option value="Dominar 400">Dominar 400</option>
+                        <option value="Platina 110 ABS">Platina 110 ABS</option>
+                        <option value="Pulsar N160">Pulsar N160</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main);">Preferred Date</label>
+                    <input type="date" id="trDate" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; outline: none; font-family: 'Outfit';" required>
+                </div>
+                <button type="submit" class="btn btn-glow" style="width: 100%; margin-top: 15px; text-align: center; justify-content: center;">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 1. SPA Navigation with Smooth Scroll & Re-animation
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+            document.querySelectorAll('#nav-menu a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => { revealElement(); }, 100);
+        }
+
+        // 2. Scroll Progress Bar & Header Effects
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.padding = '15px 5%';
+                header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.85)';
+                header.style.padding = '20px 5%';
+                header.style.boxShadow = '0 4px 20px rgba(0,0,0,0.03)';
+            }
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
+        });
+
+        // 3. Staggered Intersection Observer (Reveal Elements)
+        function revealElement() {
+            var reveals = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 50; 
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", revealElement);
+        window.onload = () => { revealElement(); calculateEMI(); }
+
+        // 4. Advanced Bike Category Filter
+        function filterBikes(category) {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.bike-item');
+            items.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    if (category === 'all' || item.classList.contains(category)) {
+                        item.style.display = 'flex';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'scale(1)';
+                        }, 50);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }, 300);
+            });
+        }
+
+        // 5. High-Precision Real-Time EMI Engine
+        function calculateEMI() {
+            const p = parseFloat(document.getElementById('loanAmount').value);
+            const r = parseFloat(document.getElementById('interestRate').value);
+            const n = parseFloat(document.getElementById('loanTenure').value);
+
+            document.getElementById('amountVal').innerText = p.toLocaleString('en-IN');
+            document.getElementById('rateVal').innerText = r + '%';
+            document.getElementById('tenureVal').innerText = n;
+
+            const monthlyRate = r / 12 / 100;
+            const emi = (p * monthlyRate * Math.pow(1 + monthlyRate, n)) / (Math.pow(1 + monthlyRate, n) - 1);
+            document.getElementById('emiResult').innerText = Math.round(emi).toLocaleString('en-IN');
+        }
+
+        // ==========================================
+        // 6. BACKEND INTEGRATION FUNCTIONS
+        // ==========================================
+
+        // Modal Open/Close
+        function openTestRideModal() { document.getElementById('testRideModal').classList.add('active'); }
+        function closeTestRideModal() { document.getElementById('testRideModal').classList.remove('active'); }
+
+        // Test Ride Submit
+        async function submitTestRide(event) {
+            event.preventDefault(); // Prevents page reload
+            const bookingData = {
+                customerName: document.getElementById('trName').value,
+                phoneNumber: document.getElementById('trPhone').value,
+                bikeModel: document.getElementById('trBike').value,
+                bookingDate: document.getElementById('trDate').value
+            };
+            try {
+                const response = await fetch('https://keshav-auto-backend.onrender.com/api/book-test-ride', {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData)
+                });
+                const result = await response.json();
+                if(result.success) {
+                    alert("🎉 Success: " + result.message);
+                    closeTestRideModal();
+                    document.getElementById('testRideForm').reset();
+                } else {
+                    alert("❌ Error: " + result.message);
+                }
+            } catch (error) { 
+                console.error(error);
+                alert("❌ Backend Error! Check if node server.js is running."); 
+            }
+        }
+
+        // Service Booking Submit
+        async function submitServiceBooking(event) {
+            event.preventDefault(); // Prevents page reload
+            const serviceData = {
+                regNumber: document.getElementById('srvRegNo').value,
+                serviceType: document.getElementById('srvType').value,
+                prefDate: document.getElementById('srvDate').value,
+                timeSlot: document.getElementById('srvTime').value
+            };
+            try {
+                const response = await fetch('https://keshav-auto-backend.onrender.com/api/book-service', {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(serviceData)
+                });
+                const result = await response.json();
+                if(result.success) {
+                    alert("🔧 Success: Service request accepted!");
+                    document.getElementById('serviceForm').reset();
+                } else {
+                    alert("❌ Error: Something went wrong.");
+                }
+            } catch (error) { 
+                console.error(error);
+                alert("❌ Backend Error! Ensure 'node server.js' is running in Terminal."); 
+            }
+        }
+    </script>
+</body>
+</html>
